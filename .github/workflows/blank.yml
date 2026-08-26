@@ -19,6 +19,9 @@ jobs:
           flutter-version: '3.19.x'
           channel: 'stable'
 
+      # यह स्टेप बिना एंड्रॉइड फोल्डर के भी अपने आप सही प्रोजेक्ट ढांचा बना देगा
+      - run: flutter create . --org com.bolta.dibba --project-name bolta_dibba --platforms android
+
       - run: flutter pub get
       - run: flutter build apk --release
-      
+
