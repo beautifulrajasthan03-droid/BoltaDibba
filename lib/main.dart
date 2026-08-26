@@ -71,7 +71,6 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 40),
               ElevatedButton.icon(
                 onPressed: () {
-                  // गूगल लॉगिन के बाद भाषा चयन स्क्रीन पर जाएं
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const LanguageSelectionScreen()),
@@ -127,7 +126,6 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(welcomeMessage);
 
-    // अगले होम स्क्रीन पर बढ़ें
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
@@ -203,8 +201,8 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: 10),
                   TextField(
                     decoration: InputDecoration(
-                      hintText: 'उदा. 12952 (अवन्तििका एक्सप्रेस)',
-                      filled: trfilled: true,ue,
+                      hintText: 'उदा. 12952 (अवन्तिका एक्सप्रेस)',
+                      filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
                     ),
@@ -223,7 +221,7 @@ class HomeScreen extends StatelessWidget {
               icon: const Icon(Icons.volume_up),
               label: const Text('डिब्बा खोजें (खोलें)', style: TextStyle(fontSize: 18)),
             ),
-                        const Spacer(),
+            const Spacer(),
             const Text(
               'भरोसेमंद अपडेट, 24x7',
               style: TextStyle(color: Colors.grey, fontSize: 14),
@@ -234,5 +232,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-
