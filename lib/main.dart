@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 void main() {
   runApp(const BoltaDibbaApp());
@@ -14,77 +15,16 @@ class BoltaDibbaApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.indigo,
-        scaffoldBackgroundColor: const Color(0xFFF4F6F9),
+        scaffoldBackgroundColor: const Color(0xFF0F172A),
       ),
-      home: const GodBlessingScreen(),
+      home: const GoogleSignInScreen(),
     );
   }
 }
 
-// 1. Splash & Blessing Screen (First Screen)
-class GodBlessingScreen extends StatelessWidget {
-  const GodBlessingScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.temple_hindu, size: 90, color: Colors.amber),
-              const SizedBox(height: 25),
-              const Text(
-                "ॐ श्री केदारनाथाय नमः • ॐ नमो नारायणाय बदरीनाथाय\n\nबाबा केदारनाथ और भगवान बदरीविशाल का आशीर्वाद ही हमारी सबसे बड़ी शक्ति है।",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.amber,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 25),
-              const Text(
-                "A safe and blessed journey starts here...",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white70, fontSize: 16),
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.amber,
-                  foregroundColor: Colors.black,
-                  minimumSize: const Size(double.infinity, 52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  );
-                },
-                child: const Text(
-                  "Continue",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// 2. Login Screen
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+// 1. Home Screen - Google Sign-In Button First
+class GoogleSignInScreen extends StatelessWidget {
+  const GoogleSignInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,15 +36,15 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   color: const Color(0xFF1E293B),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(24),
                 ),
                 child: const Column(
                   children: [
-                    Icon(Icons.train, size: 60, color: Colors.white),
-                    SizedBox(height: 10),
+                    Icon(Icons.train, size: 70, color: Colors.amber),
+                    SizedBox(height: 15),
                     Text(
                       "Bolta Dibba",
                       style: TextStyle(
@@ -116,37 +56,38 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 40),
               const Text(
-                "Sign in for a secure experience",
+                "Welcome! Please sign in to continue",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                style: TextStyle(color: Colors.white70, fontSize: 16),
               ),
               const SizedBox(height: 30),
+              // Google Sign-In Button
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1E293B),
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(double.infinity, 52),
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black87,
+                  minimumSize: const Size(double.infinity, 54),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                icon: const Icon(Icons.g_mobiledata, size: 30, color: Colors.amber),
+                icon: const Icon(Icons.g_mobiledata, size: 36, color: Colors.indigo),
                 label: const Text(
                   "Continue with Google",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const LanguageSelectionScreen()),
                   );
                 },
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
               const Text(
-                "100% Privacy Secure • No Data Mix",
+                "100% Privacy Secure • Fast & Reliable",
                 style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ],
@@ -157,52 +98,123 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-// 3. Language Selection Screen
-class LanguageSelectionScreen extends StatelessWidget {
+// 2. Language Selection Screen with Text-to-Speech
+class LanguageSelectionScreen extends StatefulWidget {
   const LanguageSelectionScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<String> languages = [
-      "Hindi (हिन्दी)",
-      "Rajasthani (राजस्थानी)",
-      "Bengali (বাংলা)",
-      "Marathi (मराठी)",
-      "Gujarati (ગુજરાતી)",
-      "English (Global)"
-    ];
+  State<LanguageSelectionScreen> createState() => _LanguageSelectionScreenState();
+}
 
+class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
+  final FlutterTts flutterTts = FlutterTts();
+  String selectedLanguage = "Not Selected";
+
+  final List<Map<String, String>> languages = [
+    {"name": "Hindi (हिन्दी)", "code": "hi-IN", "speak": "You have selected Hindi."},
+    {"name": "Rajasthani (राजस्थानी)", "code": "hi-IN", "speak": "You have selected Rajasthani."},
+    {"name": "Bengali (বাংলা)", "code": "bn-IN", "speak": "You have selected Bengali."},
+    {"name": "Marathi (मराठी)", "code": "mr-IN", "speak": "You have selected Marathi."},
+    {"name": "Gujarati (ગુજરાતી)", "code": "gu-IN", "speak": "You have selected Gujarati."},
+    {"name": "English (Global)", "code": "en-US", "speak": "You have selected English."},
+  ];
+
+  Future<void> speakText(String text, String langCode) async {
+    await flutterTts.setLanguage(langCode);
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.speak(text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select Language"),
+        title: const Text("Select Your Language"),
         backgroundColor: const Color(0xFF1E293B),
         foregroundColor: Colors.white,
       ),
-      body: ListView.builder(
-        itemCount: languages.length,
-        itemBuilder: (context, index) {
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            child: ListTile(
-              title: Text(languages[index], style: const TextStyle(fontWeight: FontWeight.bold)),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.indigo),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const TrainSearchScreen()),
-                );
-              },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.amber.shade100,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.language, color: Colors.black87),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Selected: $selectedLanguage",
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
+                  ),
+                ],
+              ),
             ),
-          );
-        },
+            const SizedBox(height: 16),
+            Expanded(
+              child: ListView.builder(
+                itemCount: languages.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: const Color(0xFF1E293B),
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    child: ListTile(
+                      title: Text(
+                        languages[index]["name"]!,
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      trailing: const Icon(Icons.volume_up, size: 20, color: Colors.amber),
+                      onTap: () {
+                        setState(() {
+                          selectedLanguage = languages[index]["name"]!;
+                        });
+                        
+                        speakText(languages[index]["speak"]!, languages[index]["code"]!);
+
+                        Future.delayed(const Duration(seconds: 1), () {
+                          if (mounted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => TrainSearchScreen(langCode: languages[index]["code"]!)),
+                            );
+                          }
+                        });
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-// 4. Train Search Screen
-class TrainSearchScreen extends StatelessWidget {
-  const TrainSearchScreen({super.key});
+// 3. Train Search Screen with Text-to-Speech
+class TrainSearchScreen extends StatefulWidget {
+  final String langCode;
+  const TrainSearchScreen({super.key, required this.langCode});
+
+  @override
+  State<TrainSearchScreen> createState() => _TrainSearchScreenState();
+}
+
+class _TrainSearchScreenState extends State<TrainSearchScreen> {
+  final FlutterTts flutterTts = FlutterTts();
+  final TextEditingController trainController = TextEditingController();
+
+  Future<void> speakDetails(String text) async {
+    await flutterTts.setLanguage(widget.langCode);
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.speak(text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -231,6 +243,7 @@ class TrainSearchScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   TextField(
+                    controller: trainController,
                     decoration: InputDecoration(
                       hintText: "e.g., 12952 (Avantika Express)",
                       filled: true,
@@ -243,14 +256,25 @@ class TrainSearchScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1E293B),
-                foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 50),
+              style: ElevatedButton.styleForm(
+                backgroundColor: Colors.amber,
+                foregroundColor: Colors.black,
+                minimumSize: const Size(double.infinity, 52),
               ),
               icon: const Icon(Icons.volume_up),
-              label: const Text("Search Coach (Speak)"),
-              onPressed: () {},
+              label: const Text(
+                "Search Coach & Speak",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              onPressed: () {
+                String trainInfo = trainController.text;
+                if (trainInfo.isEmpty) {
+                  trainInfo = "Please enter a valid train number.";
+                } else {
+                  trainInfo = "Searching coach details for train number $trainInfo.";
+                }
+                speakDetails(trainInfo);
+              },
             ),
           ],
         ),
