@@ -204,7 +204,7 @@ class HomeScreen extends StatelessWidget {
                   TextField(
                     decoration: InputDecoration(
                       hintText: 'उदा. 12952 (अवन्तििका एक्सप्रेस)',
-                      filled: true,
+                      filled: trfilled: true,ue,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
                     ),
@@ -223,7 +223,7 @@ class HomeScreen extends StatelessWidget {
               icon: const Icon(Icons.volume_up),
               label: const Text('डिब्बा खोजें (खोलें)', style: TextStyle(fontSize: 18)),
             ),
-            const Spacer(),
+                        const Spacer(),
             const Text(
               'भरोसेमंद अपडेट, 24x7',
               style: TextStyle(color: Colors.grey, fontSize: 14),
@@ -234,12 +234,5 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 
 
